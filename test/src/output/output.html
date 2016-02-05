@@ -1,0 +1,10 @@
+<div q-cname="test">
+    <div q-repeat="list | getList">
+        <div q-text="name" q-show="isShow" q-class="red: isRed, bold: size | isBold"></div>
+        <input type="text" q-value="pwd" />
+        <input type="checkbox" q-value="isCheck" />
+        <img src="" alt="" q-src="imgSrc" />
+        <img src="" alt="" q-attr="src: imgSrc, attrs"/>
+        <div q-text="list | insert 234 | length"></div>
+    </div>
+</div>

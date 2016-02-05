@@ -1,0 +1,30 @@
+{
+  "name": "d-tpl",
+  "version": "0.0.1",
+  "description": "a tpl engine for html template with directives attributes",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/test.js"
+  },
+  "keywords": [
+    "html",
+    "tpl"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/longyiyiyu/d-tpl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/longyiyiyu/d-tpl/issues"
+  },
+  "homepage": "https://github.com/longyiyiyu/d-tpl",
+  "author": "longyiyiyu",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^0.20.0",
+    "lodash": "^4.2.0"
+  },
+  "devDependencies": {
+    "should": "^7.1.0"
+  }
+}

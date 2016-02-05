@@ -1,0 +1,35 @@
+{
+    "aheader": {
+        "show": false,
+        "cover_url": "http://www.baidu.com/logo1.png/",
+        "name": "腾讯课堂",
+        "testtitle": {
+            "name": "IMWEB"
+        },
+        "lever_url": "http://ke.qq.com/level3.png"
+    },
+    "abanner": {
+        "show": true,
+        "url": "http://www.baidu.com/banner1.png",
+        "showWord": true,
+        "isCenter": false,
+        "word": "宁可我负天下人，不教天下人负我"
+    },
+    "asummary": {
+        "show": true,
+        "testtitle": {
+            "name": "IMWEB2"
+        },
+        "cnt": "&lt;img&nbsp;data-height=\"600\"&nbsp;data-width=\"1200\"&nbsp;src=\"//10.url.cn/qqke_course_info/ajNVdqHZLLBia51MoeD2twZmHeojEHWm6UUl2O61PhbDeSUdWFbpyKUuvvLbOictF19a4hib1yCSiaw/\"&nbsp;/&gt;"
+    },
+    "aroad": {
+        "show": true,
+        "list": [{
+            "date": "2015年12月",
+            "introduce": "2014年属于腾讯课堂第一梯队机构，2015年VIP学员人数突破十万人；荣获2015年腾讯课堂年度金课堂奖！"
+        }, {
+            "date": "2009年5月",
+            "introduce": "云中帆老师优酷原创设计类教程播放次数突破100万次，其CAD、PS、UG等绘图教程深受广大从业人员好评"
+        }]
+    }
+}

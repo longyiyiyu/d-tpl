@@ -1,0 +1,44 @@
+{
+    "test": {
+        "list": [{
+            "name": "Jack",
+            "isShow": true,
+            "isRed": true,
+            "size": 12,
+            "pwd": "123456",
+            "isCheck": true,
+            "imgSrc": "http://www.baidu.com/logo1.png",
+            "attrs": {
+                "width": 30,
+                "height": 30
+            },
+            "list": [1, 2, 3]
+        }, {
+            "name": "John",
+            "isShow": true,
+            "isRed": false,
+            "size": 12,
+            "pwd": "123451231236",
+            "isCheck": false,
+            "imgSrc": "http://www.baidu.com/logo2.png",
+            "attrs": {
+                "width": 300,
+                "height": 300
+            },
+            "list": [1, 2]
+        }, {
+            "name": "Anne",
+            "isShow": false,
+            "isRed": false,
+            "size": 7,
+            "pwd": "123412312356",
+            "isCheck": false,
+            "imgSrc": "http://www.baidu.com/logo3.png",
+            "attrs": {
+                "width": 300,
+                "height": 300
+            },
+            "list": [1, 2, 3, 222]
+        }]
+    }
+}

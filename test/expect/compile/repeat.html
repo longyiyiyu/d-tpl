@@ -1,0 +1,6 @@
+<ul>
+    {%{ var $$tmp = __filterValue(__obj, {"arg":null,"name":"list","filters":[["getList"]]}, "_root");if($$tmp) { $$tmp.forEach(function(item) { with(item) { var __obj=item; }%}<li>
+        <h3 q-text="name">{%{- __filterValue(__obj, {"arg":null,"name":"name","filters":[]}, "_root") }%}</h3>
+        <p q-text="description">{%{- __filterValue(__obj, {"arg":null,"name":"description","filters":[]}, "_root") }%}</p>
+    </li>{%{ }});} }%}
+</ul>
