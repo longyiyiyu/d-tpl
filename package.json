@@ -1,6 +1,6 @@
 {
   "name": "d-tpl",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a tpl engine for html template with directives attributes",
   "main": "index.js",
   "scripts": {
