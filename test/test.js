@@ -100,43 +100,58 @@ describe('compile', function() {
     });
 });
 
-function output(type, caseName) {
+function output(type, caseName, bySerialization) {
     var src = fs.readFileSync(path.join(__dirname, 'src', type, caseName + '.html'), 'utf-8');
     var filters = require(path.join(__dirname, 'src', type, caseName + '.filters.js'));
     var data = JSON.parse(fs.readFileSync(path.join(__dirname, 'src', type, caseName + '.data.json'), 'utf-8'));
     var expect = fs.readFileSync(path.join(__dirname, 'expect', type, caseName + '.html'), 'utf-8');
+    var fun2;
+    var fun = tpl.compile({
+        raw: src
+    });
 
-    // console.log(tpl.compile({
-    //     raw: src,
-    //     filters: filters
-    // })(data));
+
 
     // console.log(data, filters);
-    
-    // fs.writeFileSync(path.join(__dirname, 'src', type, caseName + '.out.tpl.html'), tpl.compile({
-    //     raw: src,
-    //     filters: filters
-    // }).vm.tpl, 'utf-8');
 
-    // fs.writeFileSync(path.join(__dirname, 'src', type, caseName + '.out.html'), tpl.compile({
-    //     raw: src,
-    //     filters: filters
-    // })(data), 'utf-8');
+    // fs.writeFileSync(path.join(__dirname, 'src', type, caseName + '.out.tpl.html'), fun.vm.tpl, 'utf-8');
 
-    tpl.compile({
-        raw: src,
-        filters: filters
-    })(data).should.equal(expect);
+    fs.writeFileSync(path.join(__dirname, 'src', type, caseName + '.fun.js'), fun.funSerializationStr, 'utf-8');
+
+    // fs.writeFileSync(path.join(__dirname, 'src', type, caseName + '.out.html'), fun(data, {
+    //     filters: filters
+    // }), 'utf-8');
+
+    if (bySerialization) {
+        fun2 = require(path.join(__dirname, 'src', type, caseName + '.fun.js'));
+        fun2(data, {
+            filters: filters
+        }).should.equal(expect);
+    } else {
+        fun(data, {
+            filters: filters
+        }).should.equal(expect);
+    }
 }
 
 describe('output:', function() {
-    describe('output the html string', function() {
+    describe('output the html string by fun', function() {
         it('should able to output the html string by filters and data', function() {
             output('output', 'output');
         });
 
         it('should able to output the html string by filters and data when the template has sub mv', function() {
             output('output', 'atest');
+        });
+    });
+
+    describe('output the html string by serialization', function() {
+        it('should able to output the html string by filters and data', function() {
+            output('output', 'output', true);
+        });
+
+        it('should able to output the html string by filters and data when the template has sub mv', function() {
+            output('output', 'atest', true);
         });
     });
 });

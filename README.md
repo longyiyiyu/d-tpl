@@ -34,51 +34,40 @@ we can compile it to a tpl fun with filters:
 ```javascript
 var tpl = require('d-tpl');
 var src = getSrc(); // get the HTML fragment
-var filters = require('./filters');
 var tplFun = tpl.compile({
-    raw: src,
-    filters: filters
+    raw: src
 });
 
 ```
 
-and the filters resource like this:
-
-``` javascript
-// filters.js
-module.exports = {
-    test: {
-        getList: function(list) {
-            list.forEach(function(item) {
-                item.name += '_long';
-            });
-            return list;
-        },
-        isBold: function(size) {
-            return size > 10;
-        },
-        insert: function(list, item) {
-            list.push(item);
-            return list;
-        },
-        length: function(list) {
-            return list.length;
-        }
-    }
-};
-```
-
-then, we can use this tpl function to output the HTML by datas:
+then, we can use this tpl function to output the HTML by datas and filters:
 
 ```
 var data = getData(); // get the data
-var output = tplFun(data);
+var filters = require('./filters');
+var output = tplFun(data, {
+    filters: filters
+});
 ```
 
 if the data like this:
 
 ```javascript
 // data.json
+/*
+ * format:
+ * {
+ *      componentName: {
+ *          key: value,
+ *          subComponentName: {
+ *              key: value
+ *          }
+ *      }
+ * }
+ * 
+ * this data structure use nesting to represent the relationship between components
+ * 
+ */
 {
     "test": {
         "list": [{
@@ -126,6 +115,44 @@ if the data like this:
 
 ```
 
+and the filters resource like this:
+
+``` javascript
+// filters.js
+/*
+ * format:
+ * module.exports = {
+ *      componentName: {
+ *          filterName: filterFun
+ *      }
+ * }
+ * 
+ * this data structure will not be nested
+ * that is, this data structure does not contain the relationship between components
+ * 
+ */
+module.exports = {
+    test: {
+        getList: function(list) {
+            list.forEach(function(item) {
+                item.name += '_long';
+            });
+            return list;
+        },
+        isBold: function(size) {
+            return size > 10;
+        },
+        insert: function(list, item) {
+            list.push(item);
+            return list;
+        },
+        length: function(list) {
+            return list.length;
+        }
+    }
+};
+```
+
 we will get the HTML like this:
 
 ```html
@@ -153,6 +180,24 @@ we will get the HTML like this:
         <div q-text="list | insert 234 | length">5</div>
     </div>
 </div>
+```
+
+for performance, the engine will set a function value named `funSerializationStr` into the tpl function, this value is the serialization of tpl function, you can save it in file as a node module<br>
+for example, like this:
+
+```javascript
+var fs = require('fs');
+fs.writeFileSync('./tplFun.js', tplFun.funSerializationStr);
+
+// other modules can use it
+var tplFun2 = require('./tplFun');
+var data = getData(); // get the data
+var filters = require('./filters');
+
+var output = tplFun2(data, {
+    filters: filters
+});
+
 ```
 
 ## Reference

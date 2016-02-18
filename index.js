@@ -123,42 +123,55 @@ function _compile(options) {
     return vm;
 }
 
+function getFunSerialization(fun, tplFun) {
+    var ret = [];
+
+    ret.push('var _ = require("lodash");');
+    ret.push('var _fun = ' + tplFun.toString());
+    ret.push('module.exports = ' + fun.toString());
+
+    return ret.join('\n');
+}
+
 exports.compile = function(options) {
     options = _.extend({}, options || {}, {
         stringFactory: genStringFactory()
     });
 
-    var filters = _.extend({}, options.filters || {}, DEFAULT.filters || {});
-
-    function __filterValue(data, exp, cname) {
-        var root = data[exp.name];
-        var name, args, filter;
-        for (var i = 0; i < exp.filters.length; i++) {
-            try {
-                name = exp.filters[i][0];
-                args = [].concat(exp.filters[i]);
-                args[0] = root;
-                filter = (filters[cname] || filters)[name];
-                root = filter.apply(data, args);
-            } catch (ex) {
-                console.warn('filter failed: ' + name);
-                return root;
-            }
-        }
-        return root;
-    }
+    // filters 和 compile 无关，所以不应该与 engine 关联
+    // filters 应该和 data 一样，在 output 的时候传进去
+    // var filters = _.extend({}, options.filters || {}, DEFAULT.filters || {});
 
     // 抽成一个函数，后面或许会改这里
-    function __getData(obj, key) {
-        return obj[key];
-    }
+    // function __getData(obj, key) {
+    //     return obj[key];
+    // }
 
     var vm = _compile(options);
     var _fun = _.template(vm.tpl);
-    var fun = function(data) {
+    var fun = function(data, opt) {
+        opt = opt || {};
         data = _.extend({}, data, {
-            __filterValue: __filterValue,
-            __getData: __getData
+            __filterValue: function(data, exp, cname) {
+                var root = data[exp.name];
+                var name, args, filter;
+                for (var i = 0; i < exp.filters.length; i++) {
+                    try {
+                        name = exp.filters[i][0];
+                        args = [].concat(exp.filters[i]);
+                        args[0] = root;
+                        filter = (opt.filters[cname] || opt.filters)[name];
+                        root = filter.apply(data, args);
+                    } catch (ex) {
+                        console.warn('filter failed: ' + name);
+                        return root;
+                    }
+                }
+                return root;
+            },
+            __getData: function(obj, key) {
+                return obj[key];
+            }
         });
         data.__obj = data;
         try {
@@ -169,7 +182,10 @@ exports.compile = function(options) {
         }
     };
 
+    var funSerializationStr = getFunSerialization(fun, _fun);
+
     // vm.tplFun = fun;
+    fun.funSerializationStr = funSerializationStr;
     fun.vm = vm;
     return fun;
 };
