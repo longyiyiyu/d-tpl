@@ -200,6 +200,8 @@ var output = tplFun2(data, {
 
 ```
 
+> note: this tpl function module depends on `lodash` module
+
 ## Reference
 - [Q.js](https://github.com/imweb/Q.js) this tpl is implemented to serve the mvvm library, Q.js, in the 0.0.1 version.
 
